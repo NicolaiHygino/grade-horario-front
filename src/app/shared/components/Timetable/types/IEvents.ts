@@ -1,12 +1,12 @@
 import { EWeekDays } from "./EWeekDays";
 
-interface IEvent {
+export type Hour = `${number}${number}:${number}${number}`;
+
+export interface IEvent {
   id: number;
   name: string;
-  startTime: Date;
-  endTime: Date;
-  dayOfTheWeek: keyof typeof EWeekDays;
+  startTime: Hour;
+  endTime: Hour;
+  weekDay: keyof typeof EWeekDays;
   bgColor: string;
 }
-
-export type IEvents = IEvent[];

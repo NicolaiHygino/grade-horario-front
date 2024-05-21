@@ -1,120 +1,148 @@
 "use client";
 
+import { Control, useFieldArray, useForm } from "react-hook-form";
 import Timetable from "../shared/components/Timetable";
-import { IEvents } from "../shared/components/Timetable/types/IEvents";
-import { Container } from "./styles";
+import { IEvent } from "../shared/components/Timetable/types/IEvents";
+import { Container, DashbordGrid, FormWrapper } from "./styles";
+import { IListPayload } from "../shared/types/IListPayload";
+import { useEffect, useState } from "react";
+import styled from "styled-components";
 
 export default function Dashboard() {
+  const [modalEvent, setModalEvent] = useState<IEvent>();
+
+  const { control, setValue } = useForm<IListPayload<IEvent>>();
+
+  const {
+    control: controlForm,
+    handleSubmit: formHandleSubmit,
+    reset: formReset,
+  } = useForm<IEvent>({
+    defaultValues: {
+      name: "",
+      startTime: "00:00",
+      endTime: "00:00",
+      bgColor: "#B0D0D3",
+      weekDay: "DOMINGO",
+    },
+  });
+
+  const { fields, remove, append } = useFieldArray({
+    control,
+    name: "data",
+    keyName: "hookId",
+  });
+
+  const addEvent = formHandleSubmit((data) => {
+    append(data);
+    formReset();
+  });
+
+  const removeEvent = () => {};
+
+  useEffect(() => {
+    setValue("data", events);
+  }, [setValue]);
+
   return (
     <Container>
-      <Timetable events={events} />
+      <Timetable events={fields} />
     </Container>
   );
 }
 
-export const events: IEvents = [
+const ModalContainer = styled.div`
+  display: flex;
+  position: absolute;
+  /* align-items: center; */
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+`;
+
+const ModalWrapper = styled.div`
+  position: sticky;
+  top: 100px;
+  background-color: white;
+  width: 300px;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+`;
+
+const ModalHeader = styled.div<{ $bgColor: string }>`
+  /* height: 50px; */
+  font-size: 20px;
+  width: 100%;
+  padding: 20px;
+  background-color: ${({ $bgColor }) => $bgColor};
+`;
+
+const ModalBody = styled.div`
+  padding: 20px;
+`;
+
+interface IEventModal {
+  event: IEvent | undefined;
+}
+
+function EventModal({ event }: IEventModal) {
+  if (event === undefined) return null;
+  return (
+    <ModalContainer>
+      <ModalWrapper>
+        <ModalHeader $bgColor={event.bgColor}>teste</ModalHeader>
+        <ModalBody>
+          <p>{event.name}</p>
+          <p>{event.startTime}</p>
+          <p>{event.endTime}</p>
+          <p>{event.weekDay}</p>
+        </ModalBody>
+      </ModalWrapper>
+    </ModalContainer>
+  );
+}
+
+export const events: IEvent[] = [
   {
-    id: 1,
-    name: "Estudar",
-    startTime: new Date("2024-04-29T00:00:00"),
-    endTime: new Date("2024-04-29T07:00:00"),
-    dayOfTheWeek: "DOMINGO",
-    bgColor: "#A1683A",
+    id: 900,
+    name: "Intervalo",
+    startTime: "09:50",
+    endTime: "10:10",
+    weekDay: "SEGUNDA",
+    bgColor: "#CDD3CE",
   },
   {
-    id: 34,
-    name: "Mercado",
-    startTime: new Date("2024-04-29T08:00:00"),
-    endTime: new Date("2024-04-29T10:00:00"),
-    dayOfTheWeek: "DOMINGO",
-    bgColor: " #586F7C",
+    id: 901,
+    name: "Intervalo",
+    startTime: "09:50",
+    endTime: "10:10",
+    weekDay: "TERCA",
+    bgColor: "#CDD3CE",
   },
   {
-    id: 2,
-    name: "Nicolai gostoso",
-    startTime: new Date("2024-04-29T12:00:00"),
-    endTime: new Date("2024-04-29T14:00:00"),
-    dayOfTheWeek: "SEGUNDA",
-    bgColor: "#B8DBD9",
+    id: 901,
+    name: "Intervalo",
+    startTime: "09:50",
+    endTime: "10:10",
+    weekDay: "QUARTA",
+    bgColor: "#CDD3CE",
   },
   {
-    id: 3,
-    name: "Ain zé da manga",
-    startTime: new Date("2024-04-29T17:00:00"),
-    endTime: new Date("2024-04-29T18:00:00"),
-    dayOfTheWeek: "TERCA",
-    bgColor: "#CBDFBD",
+    id: 901,
+    name: "Intervalo",
+    startTime: "09:50",
+    endTime: "10:10",
+    weekDay: "QUINTA",
+    bgColor: "#CDD3CE",
   },
   {
-    id: 3,
-    name: "Livro téc",
-    startTime: new Date("2024-04-29T10:00:00"),
-    endTime: new Date("2024-04-29T12:00:00"),
-    dayOfTheWeek: "QUINTA",
-    bgColor: "#CBDFBD",
-  },
-  {
-    id: 3,
-    name: "Academia",
-    startTime: new Date("2024-04-29T18:00:00"),
-    endTime: new Date("2024-04-29T19:30:00"),
-    dayOfTheWeek: "SEGUNDA",
-    bgColor: "#A8C256",
-  },
-  {
-    id: 3,
-    name: "Academia",
-    startTime: new Date("2024-04-29T18:00:00"),
-    endTime: new Date("2024-04-29T19:30:00"),
-    dayOfTheWeek: "TERCA",
-    bgColor: "#A8C256",
-  },
-  {
-    id: 3,
-    name: "Academia",
-    startTime: new Date("2024-04-29T18:00:00"),
-    endTime: new Date("2024-04-29T19:30:00"),
-    dayOfTheWeek: "QUARTA",
-    bgColor: "#A8C256",
-  },
-  {
-    id: 3,
-    name: "Academia",
-    startTime: new Date("2024-04-29T18:00:00"),
-    endTime: new Date("2024-04-29T19:30:00"),
-    dayOfTheWeek: "SEXTA",
-    bgColor: "#A8C256",
-  },
-  {
-    id: 3,
-    name: "Academia",
-    startTime: new Date("2024-04-29T09:00:00"),
-    endTime: new Date("2024-04-29T10:30:00"),
-    dayOfTheWeek: "SABADO",
-    bgColor: "#A8C256",
-  },
-  {
-    id: 3,
-    name: "Trabalhar",
-    startTime: new Date("2024-04-29T09:00:00"),
-    endTime: new Date("2024-04-29T18:00:00"),
-    dayOfTheWeek: "SEXTA",
-    bgColor: "#E5C3D1",
-  },
-  {
-    id: 3,
-    name: "Comer cu",
-    startTime: new Date("2024-04-29T21:00:00"),
-    endTime: new Date("2024-04-29T23:00:00"),
-    dayOfTheWeek: "SABADO",
-    bgColor: "#8F5C38",
-  },
-  {
-    id: 4,
-    name: "Plano maligno",
-    startTime: new Date("2024-04-29T09:00:00"),
-    endTime: new Date("2024-04-29T11:00:00"),
-    dayOfTheWeek: "QUARTA",
-    bgColor: " #F1E9DB",
+    id: 901,
+    name: "Intervalo",
+    startTime: "09:50",
+    endTime: "10:10",
+    weekDay: "SEXTA",
+    bgColor: "#CDD3CE",
   },
 ];

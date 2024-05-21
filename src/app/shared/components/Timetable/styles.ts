@@ -1,10 +1,13 @@
 import styled from "styled-components";
 
 export const TimetableStyled = styled.div`
-  position: relative;
-  height: 800px;
   overflow: scroll;
   overflow-x: hidden;
+`;
+
+export const TimetableContentWrapper = styled.div<{ $height: number }>`
+  position: relative;
+  height: ${({ $height }) => $height}px;
 `;
 
 export const WeekDays = styled.div`
@@ -21,6 +24,8 @@ export const DaysOfWeekHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  top: 0;
+  background-color: white;
 `;
 
 export const DaysOfWeek = styled.div`
@@ -60,9 +65,19 @@ export const Event = styled.div<IStyledEvent>`
   transition: all 0.2s;
 
   &:hover {
+    cursor: pointer;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    transform: scale(1.05);
+    transform: scale(1.02);
   }
+
+  &:hover .event-buttons {
+    display: block;
+    /* transition: all 0.2s; */
+  }
+`;
+
+export const EventTime = styled.span`
+  font-size: 12px;
 `;
 
 export const EventHeader = styled.h4`
