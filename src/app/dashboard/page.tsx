@@ -1,110 +1,17 @@
 "use client";
 
-import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
 import Timetable from "../shared/components/Timetable";
 import { IEvent } from "../shared/components/Timetable/types/IEvents";
-import { IListPayload } from "../shared/types/IListPayload";
-import { Container } from "./styles";
 
 export default function Dashboard() {
-  const [modalEvent, setModalEvent] = useState<IEvent>();
-
-  const { control, setValue } = useForm<IListPayload<IEvent>>();
-
-  const {
-    control: controlForm,
-    handleSubmit: formHandleSubmit,
-    reset: formReset,
-  } = useForm<IEvent>({
-    defaultValues: {
-      name: "",
-      startTime: "00:00",
-      endTime: "00:00",
-      bgColor: "#B0D0D3",
-      weekDay: "DOMINGO",
-    },
-  });
-
-  const { fields, remove, append } = useFieldArray({
-    control,
-    name: "data",
-    keyName: "hookId",
-  });
-
-  const addEvent = formHandleSubmit((data) => {
-    append(data);
-    formReset();
-  });
-
-  const removeEvent = () => {};
-
-  useEffect(() => {
-    setValue("data", events);
-  }, [setValue]);
-
   return (
-    <Container>
-      <Timetable events={fields} />
-    </Container>
+    <div>
+      <Timetable events={EVENTS} />
+    </div>
   );
 }
 
-const ModalContainer = styled.div`
-  display: flex;
-  position: absolute;
-  /* align-items: center; */
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  z-index: 9999;
-`;
-
-const ModalWrapper = styled.div`
-  position: sticky;
-  top: 100px;
-  background-color: white;
-  width: 300px;
-  height: auto;
-  border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
-`;
-
-const ModalHeader = styled.div<{ $bgColor: string }>`
-  /* height: 50px; */
-  font-size: 20px;
-  width: 100%;
-  padding: 20px;
-  background-color: ${({ $bgColor }) => $bgColor};
-`;
-
-const ModalBody = styled.div`
-  padding: 20px;
-`;
-
-interface IEventModal {
-  event: IEvent | undefined;
-}
-
-function EventModal({ event }: IEventModal) {
-  if (event === undefined) return null;
-  return (
-    <ModalContainer>
-      <ModalWrapper>
-        <ModalHeader $bgColor={event.bgColor}>teste</ModalHeader>
-        <ModalBody>
-          <p>{event.name}</p>
-          <p>{event.startTime}</p>
-          <p>{event.endTime}</p>
-          <p>{event.weekDay}</p>
-        </ModalBody>
-      </ModalWrapper>
-    </ModalContainer>
-  );
-}
-
-export const events: IEvent[] = [
+export const EVENTS: IEvent[] = [
   {
     id: 900,
     name: "Intervalo",
