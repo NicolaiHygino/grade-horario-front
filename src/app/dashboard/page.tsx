@@ -1,12 +1,12 @@
 "use client";
 
-import { Control, useFieldArray, useForm } from "react-hook-form";
+import styled from "@emotion/styled";
+import { useEffect, useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
 import Timetable from "../shared/components/Timetable";
 import { IEvent } from "../shared/components/Timetable/types/IEvents";
-import { Container, DashbordGrid, FormWrapper } from "./styles";
 import { IListPayload } from "../shared/types/IListPayload";
-import { useEffect, useState } from "react";
-import styled from "styled-components";
+import { Container } from "./styles";
 
 export default function Dashboard() {
   const [modalEvent, setModalEvent] = useState<IEvent>();

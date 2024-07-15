@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 export const TimetableStyled = styled.div`
   overflow: scroll;
@@ -72,7 +72,6 @@ export const Event = styled.div<IStyledEvent>`
 
   &:hover .event-buttons {
     display: block;
-    /* transition: all 0.2s; */
   }
 `;
 
