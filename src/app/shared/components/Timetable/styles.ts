@@ -1,87 +1,38 @@
 import styled from "@emotion/styled";
 
-export const TimetableStyled = styled.div`
-  overflow: scroll;
-  overflow-x: hidden;
-`;
-
-export const TimetableContentWrapper = styled.div<{ $height: number }>`
-  position: relative;
+export const TimetableWrapper = styled.div<{ $height: number }>`
   height: ${({ $height }) => $height}px;
+  overflow: hidden;
+  border: 1px solid #ebebeb;
 `;
 
-export const WeekDays = styled.div`
+export const TimeTableBody = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   white-space: nowrap;
   width: calc(100% - 50px);
   margin-left: 50px;
   height: 100%;
+  position: relative;
 `;
 
-export const DaysOfWeekHeader = styled.div`
-  height: 30px;
+export const WeekDayHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  top: 0;
   background-color: white;
+  height: 30px;
 `;
 
-export const DaysOfWeek = styled.div`
-  border: 1px solid #ebebeb;
+export const WeekDayColumn = styled.div`
+  border-left: 1px solid #ebebeb;
   position: relative;
 `;
 
-interface IStyledEventWrapper {
-  $hourItensHeight: number;
-  $hoursItensQuantity: number;
-}
-
-export const EventsWrapper = styled.div<IStyledEventWrapper>`
+export const EventsWrapper = styled.div<{ $height: number }>`
+  z-index: 100;
   position: relative;
-  height: ${({ $hourItensHeight, $hoursItensQuantity }) =>
-    $hourItensHeight * $hoursItensQuantity}px;
-  border: 1px solid #ebebeb;
-  margin: 0px -1px 0px -1px;
-`;
-
-interface IStyledEvent {
-  $fromTop: number;
-  $height: number;
-  $bgColor: string;
-}
-
-export const Event = styled.div<IStyledEvent>`
-  top: ${({ $fromTop }) => $fromTop}px;
   height: ${({ $height }) => $height}px;
-  background-color: ${({ $bgColor }) => $bgColor};
-  position: absolute;
-  padding: 5px;
-  width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  z-index: 999;
-  transition: all 0.2s;
-
-  &:hover {
-    cursor: pointer;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    transform: scale(1.02);
-  }
-
-  &:hover .event-buttons {
-    display: block;
-  }
-`;
-
-export const EventTime = styled.span`
-  font-size: 12px;
-`;
-
-export const EventHeader = styled.h4`
-  font-size: 14px;
-  font-weight: 500;
 `;
 
 export const HoursColumn = styled.div`
@@ -93,10 +44,20 @@ export const HoursColumn = styled.div`
   z-index: 99;
 `;
 
-export const Hour = styled.div<{ $height: number }>`
+export const HourWrapper = styled.div`
   display: flex;
+`;
+
+export const Hour = styled.div`
+  display: flex;
+  justify-content: center;
+  font-size: 12px;
+  margin-top: -6px;
+  width: 50px;
+`;
+
+export const HourRow = styled.div<{ $height: number }>`
   height: ${(props) => props.$height}px;
-  border-bottom: 1px solid #ebebeb;
+  border-top: 1px solid #ebebeb;
   width: 100%;
-  align-items: center;
 `;
