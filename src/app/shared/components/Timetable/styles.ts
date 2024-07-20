@@ -13,6 +13,7 @@ export const TimeTableBody = styled.div`
   width: calc(100% - 50px);
   margin-left: 50px;
   height: 100%;
+  position: relative;
 `;
 
 export const WeekDayHeader = styled.div`
@@ -31,14 +32,6 @@ export const WeekDayColumn = styled.div`
 export const EventsWrapper = styled.div<{ $height: number }>`
   z-index: 100;
   position: relative;
-  height: ${({ $height }) => $height}px;
-`;
-
-export const EventsWrapperTest = styled.div<{ $height: number }>`
-  z-index: 9999999;
-  border: 1px solid red;
-  position: absolute;
-  width: 100%;
   height: ${({ $height }) => $height}px;
 `;
 

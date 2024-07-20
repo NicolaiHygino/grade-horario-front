@@ -3,6 +3,7 @@ import { enumToEnumKeyList, mask24hours } from "@/app/shared/utils";
 import { useState } from "react";
 import DraftEvent from "./components/DraftEvent";
 import Event from "./components/Event";
+import Pointer from "./components/Pointer";
 import PopperForm from "./components/PopperForm";
 import {
   EventsWrapper,
@@ -79,7 +80,7 @@ export default function Timetable({
           </HourWrapper>
         ))}
       </HoursColumn>
-      <TimeTableBody onClick={() => {}}>
+      <TimeTableBody>
         {TABLE_WEEK_DAYS.map((day) => {
           return (
             <WeekDayColumn key={day}>
@@ -92,6 +93,7 @@ export default function Timetable({
                   handleAddDraftEventClick(e, day as keyof typeof EWeekDays)
                 }
               >
+                <Pointer hourHeight={HOUR_HEIGHT} />
                 {events
                   .filter((event) => event.weekDay === day)
                   .map((event) => (
