@@ -1,6 +1,5 @@
 import { EWeekDays } from "./EWeekDays";
-
-export type Hour = `${number}${number}:${number}${number}`;
+import { Hour } from "./IHour";
 
 export interface IEvent {
   id: number;
