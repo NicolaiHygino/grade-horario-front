@@ -3,17 +3,14 @@ import { useEffect, useState } from "react";
 import { Hour } from "../types/IHour";
 import { hourTimeToPixels, makeHourWithDateObject } from "../utils";
 
-interface props {
-  hourHeight: number;
-}
-
-export default function Pointer({ hourHeight }: props) {
+export default function HourPointer({ hourHeight }: { hourHeight: number }) {
   const [hour, setHour] = useState<Hour>("00:00");
 
   useEffect(() => {
+    setHour(makeHourWithDateObject(new Date()));
+
     const interval = setInterval(() => {
-      const date = new Date();
-      setHour(makeHourWithDateObject(date));
+      setHour(makeHourWithDateObject(new Date()));
     }, 60000);
 
     return () => clearInterval(interval);
@@ -22,15 +19,12 @@ export default function Pointer({ hourHeight }: props) {
   return <StyledPointer $fromTop={hourTimeToPixels(hour, hourHeight)} />;
 }
 
-interface IStyledPointer {
+export const StyledPointer = styled.div<{
   $fromTop: number;
-}
-
-export const StyledPointer = styled.div<IStyledPointer>`
+}>`
   top: ${({ $fromTop }) => $fromTop}px;
-  height: 1.2px;
-  background-color: red;
+  border-bottom: 1px solid red;
   position: absolute;
   width: 100%;
-  z-index: 999;
+  z-index: 999999999;
 `;
