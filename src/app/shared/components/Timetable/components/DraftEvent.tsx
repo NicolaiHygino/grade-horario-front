@@ -18,7 +18,7 @@ export default function DraftEvent({
 
   const ref = useRef(null);
 
-  // force popper open after event rendered on document
+  // force popper opens only after draft event rendered
   useEffect(() => {
     setOpenPopper(true);
   }, []);

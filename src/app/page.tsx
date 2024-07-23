@@ -28,7 +28,7 @@ export const EVENTS: IEvent[] = [
   {
     id: 900,
     name: "Intervalo",
-    startTime: "23:00",
+    startTime: "21:00",
     endTime: "23:59",
     weekDay: "SEGUNDA",
     bgColor: "#CDD3CE",

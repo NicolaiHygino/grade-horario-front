@@ -3,7 +3,7 @@ import { enumToEnumKeyList, mask24hours } from "@/app/shared/utils";
 import { useState } from "react";
 import DraftEvent from "./components/DraftEvent";
 import Event from "./components/Event";
-import Pointer from "./components/Pointer";
+import HourPointer from "./components/Pointer";
 import PopperForm from "./components/PopperForm";
 import {
   EventsWrapper,
@@ -41,9 +41,8 @@ export default function Timetable({
   handleDeleteEvent,
 }: props) {
   const [draftEvent, setDraftEvent] = useState<IEvent | null>(null);
-
   const [editingEvent, setEditingEvent] = useState<IEvent | null>(null);
-  const [editingEventEl, setEditingEventEl] = useState<null | HTMLElement>(
+  const [editingEventEl, setEditingEventEl] = useState<HTMLElement | null>(
     null
   );
 
@@ -51,7 +50,7 @@ export default function Timetable({
     e: React.MouseEvent<HTMLDivElement>,
     weekDay: keyof typeof EWeekDays
   ) => {
-    if (Boolean(draftEvent) || editingEvent) return;
+    if (draftEvent || editingEvent) return;
 
     const rect = e.currentTarget.getBoundingClientRect();
     const relativeY = Math.floor(e.clientY - rect.top);
@@ -93,7 +92,7 @@ export default function Timetable({
                   handleAddDraftEventClick(e, day as keyof typeof EWeekDays)
                 }
               >
-                <Pointer hourHeight={HOUR_HEIGHT} />
+                <HourPointer hourHeight={HOUR_HEIGHT} />
                 {events
                   .filter((event) => event.weekDay === day)
                   .map((event) => (
