@@ -1,6 +1,6 @@
 "use client";
 import { enumToEnumKeyList, mask24hours } from "@/app/shared/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DraftEvent from "./components/DraftEvent";
 import Event from "./components/Event";
 import HourPointer from "./components/Pointer";
@@ -27,7 +27,14 @@ import {
 interface props {
   events: IEvent[];
   handleSubmitEvent: (event: IEvent) => void;
-  handleDeleteEvent: (eventId: number) => void;
+  handleEditEvent: (event: IEvent, index: number) => void;
+  handleDeleteEvent: (eventId?: number) => void;
+}
+
+interface TimetableEvent {
+  event: IEvent;
+  index: number;
+  key: string;
 }
 
 const DAY_HOURS = [...Array(24)].map((_, index) => mask24hours(index));
@@ -38,10 +45,13 @@ const HOUR_HEIGHT = (TIMETABLE_HEIGHT - 30) / 24;
 export default function Timetable({
   events,
   handleSubmitEvent,
+  handleEditEvent,
   handleDeleteEvent,
 }: props) {
+  const [timetableEvents, setTimetableEvents] = useState<TimetableEvent[]>([]);
+
   const [draftEvent, setDraftEvent] = useState<IEvent | null>(null);
-  const [editingEvent, setEditingEvent] = useState<IEvent | null>(null);
+  const [editingEvent, setEditingEvent] = useState<TimetableEvent | null>(null);
   const [editingEventEl, setEditingEventEl] = useState<HTMLElement | null>(
     null
   );
@@ -69,6 +79,20 @@ export default function Timetable({
     });
   };
 
+  const handleDelete = () => {
+    handleDeleteEvent(editingEvent?.index);
+    setEditingEvent(null);
+  };
+
+  useEffect(() => {
+    const eventsMapped: TimetableEvent[] = events.map((event, index) => ({
+      event,
+      index,
+      key: crypto.randomUUID(),
+    }));
+    setTimetableEvents(eventsMapped);
+  }, [events]);
+
   return (
     <TimetableWrapper $height={TIMETABLE_HEIGHT}>
       <HoursColumn>
@@ -93,16 +117,16 @@ export default function Timetable({
                 }
               >
                 <HourPointer hourHeight={HOUR_HEIGHT} />
-                {events
-                  .filter((event) => event.weekDay === day)
-                  .map((event) => (
+                {timetableEvents
+                  .filter((item) => item.event.weekDay === day)
+                  .map((item) => (
                     <Event
-                      ariaDescribedBy={`${event.id}`}
-                      event={event}
-                      key={event.id}
+                      ariaDescribedBy={`${item.key}`}
+                      event={item.event}
+                      key={item.key}
                       hourHeight={HOUR_HEIGHT}
                       onClick={(e) => {
-                        setEditingEvent(event);
+                        setEditingEvent(item);
                         setEditingEventEl(e.currentTarget);
                       }}
                     />
@@ -121,13 +145,16 @@ export default function Timetable({
         })}
       </TimeTableBody>
       <PopperForm
-        id={`${editingEvent?.id}`}
+        id={`${editingEvent?.key}`}
         open={Boolean(editingEvent)}
         anchorEl={editingEventEl}
-        event={editingEvent}
+        event={editingEvent?.event || null}
         onClickAway={() => setEditingEvent(null)}
-        handleSubmit={handleSubmitEvent}
-        handleDelete={handleDeleteEvent}
+        handleSubmit={(event) => {
+          if (editingEvent?.index !== null) return;
+          handleEditEvent(event, editingEvent.index);
+        }}
+        handleDelete={handleDelete}
       />
     </TimetableWrapper>
   );

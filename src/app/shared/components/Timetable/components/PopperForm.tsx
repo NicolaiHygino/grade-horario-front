@@ -21,9 +21,9 @@ type props = {
   open: boolean;
   event: IEvent | null;
   anchorEl: HTMLElement | null;
-  handleSubmit: (event: IEvent) => void;
+  handleSubmit?: (event: IEvent) => void;
   onClickAway?: () => void;
-  handleDelete?: (eventId: number) => void;
+  handleDelete?: () => void;
 };
 
 export default function PopperForm({
@@ -47,7 +47,7 @@ export default function PopperForm({
   }, [reset, event]);
 
   const onSubmit = handleFormSubmit((values) => {
-    handleSubmit(values);
+    handleSubmit?.(values);
     onClickAway?.();
   });
 
@@ -79,7 +79,7 @@ export default function PopperForm({
                   <IconButton
                     size="small"
                     aria-label="delete-card"
-                    onClick={() => handleDelete(event.id)}
+                    onClick={() => handleDelete()}
                   >
                     <DeleteIcon fontSize="inherit" />
                   </IconButton>

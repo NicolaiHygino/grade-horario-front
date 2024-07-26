@@ -1,24 +1,31 @@
 "use client";
 
 import { Box } from "@mui/material";
+import { useFieldArray, useForm } from "react-hook-form";
 import Timetable from "./shared/components/Timetable";
 import { IEvent } from "./shared/components/Timetable/types/IEvents";
 
-export default function Home() {
-  const handleSubmit = (e: IEvent) => {
-    console.log(e);
-  };
+interface EventsPayload {
+  data: IEvent[];
+}
 
-  const handleDelete = (e: number) => {
-    console.log(e);
-  };
+export default function Home() {
+  const { control } = useForm<EventsPayload>({
+    defaultValues: { data: EVENTS },
+  });
+  const { fields, append, remove, update } = useFieldArray({
+    control,
+    name: "data",
+    keyName: "fieldId",
+  });
 
   return (
     <Box>
       <Timetable
-        events={EVENTS}
-        handleSubmitEvent={handleSubmit}
-        handleDeleteEvent={handleDelete}
+        events={fields}
+        handleSubmitEvent={(e) => append(e)}
+        handleEditEvent={(event, index) => update(index, event)}
+        handleDeleteEvent={(index) => remove(index)}
       />
     </Box>
   );
