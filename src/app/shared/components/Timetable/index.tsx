@@ -25,14 +25,18 @@ import {
 } from "./utils";
 
 interface props {
-  events: IEvent[];
+  events: IFieldEvent[];
   handleSubmitEvent: (event: IEvent) => void;
   handleEditEvent: (index: number, event: IEvent) => void;
   handleDeleteEvent: (eventId?: number) => void;
 }
 
+type IFieldEvent = {
+  fieldKey: string;
+} & IEvent;
+
 interface TimetableEvent {
-  event: IEvent;
+  event: IFieldEvent;
   index: number;
   key: string;
 }
@@ -88,7 +92,7 @@ export default function Timetable({
     const eventsMapped: TimetableEvent[] = events.map((event, index) => ({
       event,
       index,
-      key: crypto.randomUUID(),
+      key: crypto.randomUUID?.(),
     }));
     setTimetableEvents(eventsMapped);
   }, [events]);
@@ -111,6 +115,7 @@ export default function Timetable({
                 {EWeekDays[day as keyof typeof EWeekDays]}
               </WeekDayHeader>
               <EventsWrapper
+                key={`${day}-week-days`}
                 $height={TIMETABLE_HEIGHT - 30}
                 onClick={(e) =>
                   handleAddDraftEventClick(e, day as keyof typeof EWeekDays)
@@ -121,7 +126,7 @@ export default function Timetable({
                   .filter((item) => item.event.weekDay === day)
                   .map((item) => (
                     <Event
-                      ariaDescribedBy={`${item.key}`}
+                      ariaDescribedBy={`${item.event.fieldKey}`}
                       event={item.event}
                       key={item.key}
                       hourHeight={HOUR_HEIGHT}
