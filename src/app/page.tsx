@@ -23,9 +23,9 @@ export default function Home() {
     <Box>
       <Timetable
         events={fields}
-        handleSubmitEvent={(e) => append(e)}
-        handleEditEvent={(event, index) => update(index, event)}
-        handleDeleteEvent={(index) => remove(index)}
+        handleSubmitEvent={append}
+        handleEditEvent={update}
+        handleDeleteEvent={remove}
       />
     </Box>
   );

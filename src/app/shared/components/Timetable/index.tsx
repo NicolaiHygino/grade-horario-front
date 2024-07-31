@@ -27,7 +27,7 @@ import {
 interface props {
   events: IEvent[];
   handleSubmitEvent: (event: IEvent) => void;
-  handleEditEvent: (event: IEvent, index: number) => void;
+  handleEditEvent: (index: number, event: IEvent) => void;
   handleDeleteEvent: (eventId?: number) => void;
 }
 
@@ -151,8 +151,8 @@ export default function Timetable({
         event={editingEvent?.event || null}
         onClickAway={() => setEditingEvent(null)}
         handleSubmit={(event) => {
-          if (editingEvent?.index !== null) return;
-          handleEditEvent(event, editingEvent.index);
+          if (editingEvent?.index !== undefined)
+            handleEditEvent(editingEvent.index, event);
         }}
         handleDelete={handleDelete}
       />
