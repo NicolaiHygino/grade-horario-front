@@ -16,7 +16,7 @@ export default function Home() {
   const { fields, append, remove, update } = useFieldArray({
     control,
     name: "data",
-    keyName: "fieldId",
+    keyName: "fieldKey",
   });
 
   return (
