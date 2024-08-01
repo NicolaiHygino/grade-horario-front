@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { describe } from "node:test";
-import Page from "../app/page";
+import Page from "./page";
 
 describe("Page", () => {
   const daysOfWeek = [
