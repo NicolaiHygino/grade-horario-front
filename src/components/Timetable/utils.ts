@@ -1,4 +1,4 @@
-import { hoursToMinutes, ruleOfThree } from "@/app/shared/utils";
+import { hoursToMinutes, ruleOfThree } from "@/utils";
 import { Hour } from "./types/IHour";
 
 function padStartWithZero(number: number): string {

@@ -1,15 +1,15 @@
 "use client";
 
+import Timetable from "@/components/Timetable";
 import { Box } from "@mui/material";
 import { useFieldArray, useForm } from "react-hook-form";
-import Timetable from "./shared/components/Timetable";
-import { IEvent } from "./shared/components/Timetable/types/IEvents";
+import { IEvent } from "../components/Timetable/types/IEvents";
 
 interface EventsPayload {
   data: IEvent[];
 }
 
-export default function Home() {
+export default function Page() {
   const { control } = useForm<EventsPayload>({
     defaultValues: { data: EVENTS },
   });

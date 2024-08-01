@@ -1,5 +1,5 @@
 "use client";
-import { enumToEnumKeyList, mask24hours } from "@/app/shared/utils";
+import { enumToEnumKeyList, mask24hours } from "@/utils";
 import { useEffect, useState } from "react";
 import DraftEvent from "./components/DraftEvent";
 import Event from "./components/Event";
@@ -43,7 +43,7 @@ interface TimetableEvent {
 
 const DAY_HOURS = [...Array(24)].map((_, index) => mask24hours(index));
 const TABLE_WEEK_DAYS = enumToEnumKeyList(EWeekDays);
-const TIMETABLE_HEIGHT = 1500;
+const TIMETABLE_HEIGHT = 1300;
 const HOUR_HEIGHT = (TIMETABLE_HEIGHT - 30) / 24;
 
 export default function Timetable({
