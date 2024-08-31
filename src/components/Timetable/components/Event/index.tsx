@@ -27,6 +27,7 @@ const Event = forwardRef<HTMLDivElement, IEventProps>(
           e.stopPropagation();
           onClick?.(e);
         }}
+        data-testid="event"
       >
         <EventTime>
           {event.startTime} - {event.endTime}

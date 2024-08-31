@@ -3,7 +3,7 @@ import { enumToEnumKeyList, mask24hours } from "@/utils";
 import { useEffect, useState } from "react";
 import DraftEvent from "./components/DraftEvent";
 import Event from "./components/Event";
-import HourPointer from "./components/Pointer";
+import HourPointer from "./components/HourPonter";
 import PopperForm from "./components/PopperForm";
 import {
   EventsWrapper,
