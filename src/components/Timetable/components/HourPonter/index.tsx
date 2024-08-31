@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
-import { Hour } from "../types/IHour";
-import { hourTimeToPixels, makeHourWithDateObject } from "../utils";
+import { Hour } from "../../types/IHour";
+import { hourTimeToPixels, makeHourWithDateObject } from "../../utils";
 
 export default function HourPointer({ hourHeight }: { hourHeight: number }) {
   const [hour, setHour] = useState<Hour>("00:00");
@@ -16,7 +16,12 @@ export default function HourPointer({ hourHeight }: { hourHeight: number }) {
     return () => clearInterval(interval);
   }, []);
 
-  return <StyledPointer $fromTop={hourTimeToPixels(hour, hourHeight)} />;
+  return (
+    <StyledPointer
+      $fromTop={hourTimeToPixels(hour, hourHeight)}
+      data-testid="hour-pointer"
+    />
+  );
 }
 
 export const StyledPointer = styled.div<{

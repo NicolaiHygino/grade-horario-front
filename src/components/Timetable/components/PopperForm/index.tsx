@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { IEvent } from "../types/IEvents";
+import { IEvent } from "../../types/IEvents";
 
 type props = {
   id: string;
@@ -108,7 +108,7 @@ export default function PopperForm({
                 <TextField
                   {...register("startTime")}
                   fullWidth
-                  label="inicio"
+                  label="Início"
                   size="small"
                   type="time"
                   InputLabelProps={{
