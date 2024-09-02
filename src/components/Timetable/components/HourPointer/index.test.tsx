@@ -7,7 +7,7 @@ describe("Pointer", () => {
     jest.setSystemTime(new Date(2000, 0, 1, 0, 0));
 
     render(<HourPointer hourHeight={20} />);
-    const eventElement = screen.getByTestId("hour-pointer");
+    const eventElement = screen.getByLabelText("hour-pointer");
     expect(eventElement).toHaveStyle({ top: "0px" });
   });
 
@@ -16,7 +16,7 @@ describe("Pointer", () => {
     jest.setSystemTime(new Date(2000, 0, 1, 1, 0));
 
     render(<HourPointer hourHeight={60} />);
-    const eventElement = screen.getByTestId("hour-pointer");
+    const eventElement = screen.getByLabelText("hour-pointer");
     expect(eventElement).toHaveStyle({ top: "60px" });
   });
 
@@ -25,7 +25,7 @@ describe("Pointer", () => {
     jest.setSystemTime(new Date(2000, 0, 1, 2, 0));
 
     render(<HourPointer hourHeight={60} />);
-    const eventElement = screen.getByTestId("hour-pointer");
+    const eventElement = screen.getByLabelText("hour-pointer");
     expect(eventElement).toHaveStyle({ top: "120px" });
   });
 
@@ -34,7 +34,7 @@ describe("Pointer", () => {
     jest.setSystemTime(new Date(2000, 0, 1, 1, 0));
 
     render(<HourPointer hourHeight={20} />);
-    const eventElement = screen.getByTestId("hour-pointer");
+    const eventElement = screen.getByLabelText("hour-pointer");
     expect(eventElement).toHaveStyle({ top: "20px" });
   });
 
@@ -43,7 +43,7 @@ describe("Pointer", () => {
     jest.setSystemTime(new Date(2000, 0, 1, 4, 0));
 
     render(<HourPointer hourHeight={20} />);
-    const eventElement = screen.getByTestId("hour-pointer");
+    const eventElement = screen.getByLabelText("hour-pointer");
     expect(eventElement).toHaveStyle({ top: "80px" });
   });
 });

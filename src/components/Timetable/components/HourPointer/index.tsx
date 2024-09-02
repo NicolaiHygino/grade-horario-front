@@ -19,7 +19,7 @@ export default function HourPointer({ hourHeight }: { hourHeight: number }) {
   return (
     <StyledPointer
       $fromTop={hourTimeToPixels(hour, hourHeight)}
-      data-testid="hour-pointer"
+      aria-label="hour-pointer"
     />
   );
 }
