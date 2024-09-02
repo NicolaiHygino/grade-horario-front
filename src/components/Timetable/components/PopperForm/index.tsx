@@ -9,6 +9,7 @@ import {
   ClickAwayListener,
   Grid,
   IconButton,
+  PopoverVirtualElement,
   Popper,
   TextField,
 } from "@mui/material";
@@ -20,7 +21,7 @@ type props = {
   id: string;
   open: boolean;
   event: IEvent | null;
-  anchorEl: HTMLElement | null;
+  anchorEl: HTMLElement | null | PopoverVirtualElement;
   handleSubmit?: (event: IEvent) => void;
   onClickAway?: () => void;
   handleDelete?: () => void;
@@ -75,10 +76,10 @@ export default function PopperForm({
             sx={{ padding: "3px 13px", backgroundColor: "#ebebeb" }}
             action={
               <Box>
-                {handleDelete && event && (
+                {handleDelete && (
                   <IconButton
                     size="small"
-                    aria-label="delete-card"
+                    aria-label="delete"
                     onClick={() => handleDelete()}
                   >
                     <DeleteIcon fontSize="inherit" />
@@ -86,7 +87,7 @@ export default function PopperForm({
                 )}
                 <IconButton
                   size="small"
-                  aria-label="close-card"
+                  aria-label="close"
                   onClick={onClickAway}
                 >
                   <CloseIcon fontSize="inherit" />

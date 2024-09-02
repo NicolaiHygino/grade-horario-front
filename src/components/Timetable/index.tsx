@@ -1,5 +1,5 @@
 "use client";
-import { enumToEnumKeyList, mask24hours } from "@/utils";
+import { enumToEnumKeyList, mask24hours } from "@/utils/functions-utils";
 import { useEffect, useState } from "react";
 import DraftEvent from "./components/DraftEvent";
 import Event from "./components/Event";
