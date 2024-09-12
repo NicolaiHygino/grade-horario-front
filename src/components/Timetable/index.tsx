@@ -1,5 +1,5 @@
 "use client";
-import { enumToEnumKeyList, mask24hours } from "@/utils/functions-utils";
+import { mask24hours } from "@/utils/functions-utils";
 import { useEffect, useState } from "react";
 import DraftEvent from "./components/DraftEvent";
 import Event from "./components/Event";
@@ -31,18 +31,17 @@ interface props {
   handleDeleteEvent: (eventId?: number) => void;
 }
 
-type IFieldEvent = {
+export type IFieldEvent = {
   fieldKey: string;
 } & IEvent;
 
 interface TimetableEvent {
   event: IFieldEvent;
   index: number;
-  key: string;
 }
 
 const DAY_HOURS = [...Array(24)].map((_, index) => mask24hours(index));
-const TABLE_WEEK_DAYS = enumToEnumKeyList(EWeekDays);
+const TABLE_WEEK_DAYS = Object.keys(EWeekDays);
 const TIMETABLE_HEIGHT = 1300;
 const HOUR_HEIGHT = (TIMETABLE_HEIGHT - 30) / 24;
 
@@ -89,12 +88,12 @@ export default function Timetable({
   };
 
   useEffect(() => {
-    const eventsMapped: TimetableEvent[] = events.map((event, index) => ({
-      event,
-      index,
-      key: crypto.randomUUID?.(),
-    }));
-    setTimetableEvents(eventsMapped);
+    setTimetableEvents(
+      events.map((event, index) => ({
+        event,
+        index,
+      }))
+    );
   }, [events]);
 
   return (
@@ -108,14 +107,14 @@ export default function Timetable({
         ))}
       </HoursColumn>
       <TimeTableBody>
-        {TABLE_WEEK_DAYS.map((day) => {
+        {TABLE_WEEK_DAYS.map((day, i) => {
           return (
             <WeekDayColumn key={day}>
               <WeekDayHeader>
                 {EWeekDays[day as keyof typeof EWeekDays]}
               </WeekDayHeader>
               <EventsWrapper
-                key={`${day}-week-days`}
+                key={`${day}-${i}-week-days`}
                 $height={TIMETABLE_HEIGHT - 30}
                 onClick={(e) =>
                   handleAddDraftEventClick(e, day as keyof typeof EWeekDays)
@@ -128,7 +127,7 @@ export default function Timetable({
                     <Event
                       ariaDescribedBy={`${item.event.fieldKey}`}
                       event={item.event}
-                      key={item.key}
+                      key={item.event.fieldKey}
                       hourHeight={HOUR_HEIGHT}
                       onClick={(e) => {
                         setEditingEvent(item);
@@ -150,7 +149,7 @@ export default function Timetable({
         })}
       </TimeTableBody>
       <PopperForm
-        id={`${editingEvent?.key}`}
+        id={`${editingEvent?.event.fieldKey}`}
         open={Boolean(editingEvent)}
         anchorEl={editingEventEl}
         event={editingEvent?.event || null}

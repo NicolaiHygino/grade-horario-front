@@ -1,7 +1,3 @@
-export function enumToEnumKeyList(enumObj: any): string[] {
-  return Object.keys(enumObj).filter((key) => isNaN(Number(enumObj[key])));
-}
-
 export function hoursToMinutes(hours: number, minutes: number): number {
   return hours * 60 + minutes;
 }
