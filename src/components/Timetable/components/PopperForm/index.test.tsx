@@ -1,4 +1,4 @@
-import { asyncGetInputByLabelAndType } from "@/utils/test-utils";
+import { asyncGetInputByLabelClearAndType } from "@/utils/test-utils";
 import { PopoverVirtualElement } from "@mui/material";
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -49,9 +49,9 @@ describe("PopperForm", () => {
         anchorEl={virtualElementMock}
       />
     );
-    await asyncGetInputByLabelAndType("Título", "Mock Event");
-    await asyncGetInputByLabelAndType("Início", "0100");
-    await asyncGetInputByLabelAndType("Fim", "0200");
+    await asyncGetInputByLabelClearAndType("Título", "Mock Event");
+    await asyncGetInputByLabelClearAndType("Início", "0100");
+    await asyncGetInputByLabelClearAndType("Fim", "0200");
 
     const colorInput = screen.getByLabelText("Cor");
     fireEvent.input(colorInput, { target: { value: "#ffffff" } });
@@ -80,9 +80,9 @@ describe("PopperForm", () => {
         anchorEl={virtualElementMock}
       />
     );
-    await asyncGetInputByLabelAndType("Título", "Mock Event");
-    await asyncGetInputByLabelAndType("Início", "0100");
-    await asyncGetInputByLabelAndType("Fim", "0200");
+    await asyncGetInputByLabelClearAndType("Título", "Mock Event");
+    await asyncGetInputByLabelClearAndType("Início", "0100");
+    await asyncGetInputByLabelClearAndType("Fim", "0200");
 
     const colorInput = screen.getByLabelText("Cor");
     fireEvent.input(colorInput, { target: { value: "#ffffff" } });

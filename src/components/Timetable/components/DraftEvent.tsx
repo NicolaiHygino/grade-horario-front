@@ -26,9 +26,10 @@ export default function DraftEvent({
   return (
     <>
       <Event
-        aria-describedby="draft-event"
+        ariaDescribedBy="draft-event"
         event={event}
         hourHeight={hourHeight}
+        dataTestId="draft-event"
         ref={ref}
       />
       <PopperForm
