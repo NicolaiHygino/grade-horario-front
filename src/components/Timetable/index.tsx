@@ -1,4 +1,5 @@
 "use client";
+
 import { mask24hours } from "@/utils/functions-utils";
 import { useEffect, useState } from "react";
 import DraftEvent from "./components/DraftEvent";
@@ -26,9 +27,10 @@ import {
 
 interface props {
   events: IFieldEvent[];
-  handleSubmitEvent: (event: IEvent) => void;
-  handleEditEvent: (index: number, event: IEvent) => void;
-  handleDeleteEvent: (eventId?: number) => void;
+  hourHeight?: number;
+  handleSubmit: (event: IEvent) => void;
+  handleEdit: (index: number, event: IEvent) => void;
+  handleDelete: (eventId?: number) => void;
 }
 
 export type IFieldEvent = {
@@ -42,14 +44,13 @@ interface TimetableEvent {
 
 const DAY_HOURS = [...Array(24)].map((_, index) => mask24hours(index));
 const TABLE_WEEK_DAYS = Object.keys(EWeekDays);
-const TIMETABLE_HEIGHT = 1300;
-const HOUR_HEIGHT = (TIMETABLE_HEIGHT - 30) / 24;
 
 export default function Timetable({
   events,
-  handleSubmitEvent,
-  handleEditEvent,
-  handleDeleteEvent,
+  hourHeight = 50,
+  handleSubmit,
+  handleEdit,
+  handleDelete,
 }: props) {
   const [timetableEvents, setTimetableEvents] = useState<TimetableEvent[]>([]);
 
@@ -59,6 +60,8 @@ export default function Timetable({
     null
   );
 
+  const timetableHeight = hourHeight * 25 - 30;
+
   const handleAddDraftEventClick = (
     e: React.MouseEvent<HTMLDivElement>,
     weekDay: keyof typeof EWeekDays
@@ -67,7 +70,7 @@ export default function Timetable({
 
     const rect = e.currentTarget.getBoundingClientRect();
     const relativeY = Math.floor(e.clientY - rect.top);
-    const hour = pixelsToHourTime(relativeY, HOUR_HEIGHT);
+    const hour = pixelsToHourTime(relativeY, hourHeight);
 
     const startTime = roundHourTimeToNearestHalfHour(hour);
     const endTime = increaseHour(startTime, 1);
@@ -82,11 +85,6 @@ export default function Timetable({
     });
   };
 
-  const handleDelete = () => {
-    handleDeleteEvent(editingEvent?.index);
-    setEditingEvent(null);
-  };
-
   useEffect(() => {
     setTimetableEvents(
       events.map((event, index) => ({
@@ -97,30 +95,30 @@ export default function Timetable({
   }, [events]);
 
   return (
-    <TimetableWrapper $height={TIMETABLE_HEIGHT}>
+    <TimetableWrapper $height={timetableHeight}>
       <HoursColumn>
         {DAY_HOURS.map((hour) => (
           <HourWrapper key={hour}>
             <Hour>{hour}</Hour>
-            <HourRow $height={HOUR_HEIGHT}></HourRow>
+            <HourRow $height={hourHeight}></HourRow>
           </HourWrapper>
         ))}
       </HoursColumn>
       <TimeTableBody>
-        {TABLE_WEEK_DAYS.map((day, i) => {
+        {TABLE_WEEK_DAYS.map((day) => {
           return (
             <WeekDayColumn key={day}>
               <WeekDayHeader>
                 {EWeekDays[day as keyof typeof EWeekDays]}
               </WeekDayHeader>
               <EventsWrapper
-                key={`${day}-${i}-week-days`}
-                $height={TIMETABLE_HEIGHT - 30}
+                aria-label={day}
+                $height={timetableHeight - 30}
                 onClick={(e) =>
                   handleAddDraftEventClick(e, day as keyof typeof EWeekDays)
                 }
               >
-                <HourPointer hourHeight={HOUR_HEIGHT} />
+                <HourPointer hourHeight={hourHeight} />
                 {timetableEvents
                   .filter((item) => item.event.weekDay === day)
                   .map((item) => (
@@ -128,7 +126,7 @@ export default function Timetable({
                       ariaDescribedBy={`${item.event.fieldKey}`}
                       event={item.event}
                       key={item.event.fieldKey}
-                      hourHeight={HOUR_HEIGHT}
+                      hourHeight={hourHeight}
                       onClick={(e) => {
                         setEditingEvent(item);
                         setEditingEventEl(e.currentTarget);
@@ -138,9 +136,9 @@ export default function Timetable({
                 {draftEvent?.weekDay === day && Boolean(draftEvent) && (
                   <DraftEvent
                     event={draftEvent}
-                    hourHeight={HOUR_HEIGHT}
+                    hourHeight={hourHeight}
                     onClickAway={() => setDraftEvent(null)}
-                    handleSubmit={handleSubmitEvent}
+                    handleSubmit={handleSubmit}
                   />
                 )}
               </EventsWrapper>
@@ -156,9 +154,12 @@ export default function Timetable({
         onClickAway={() => setEditingEvent(null)}
         handleSubmit={(event) => {
           if (editingEvent?.index !== undefined)
-            handleEditEvent(editingEvent.index, event);
+            handleEdit(editingEvent.index, event);
         }}
-        handleDelete={handleDelete}
+        handleDelete={() => {
+          handleDelete(editingEvent?.index);
+          setEditingEvent(null);
+        }}
       />
     </TimetableWrapper>
   );

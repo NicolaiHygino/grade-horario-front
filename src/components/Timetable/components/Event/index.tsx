@@ -7,11 +7,21 @@ export interface IEventProps {
   event: IEvent;
   hourHeight: number;
   ariaDescribedBy?: string;
+  dataTestId?: string;
   onClick?: (e: React.MouseEvent<HTMLElement>) => void;
 }
 
 const Event = forwardRef<HTMLDivElement, IEventProps>(
-  ({ event, hourHeight, onClick, ariaDescribedBy }: IEventProps, ref) => {
+  (
+    {
+      event,
+      hourHeight,
+      onClick,
+      ariaDescribedBy,
+      dataTestId = "event",
+    }: IEventProps,
+    ref
+  ) => {
     return (
       <StyledEvent
         key={event.id}
@@ -27,7 +37,7 @@ const Event = forwardRef<HTMLDivElement, IEventProps>(
           e.stopPropagation();
           onClick?.(e);
         }}
-        data-testid="event"
+        data-testid={dataTestId}
       >
         <EventTime>
           {event.startTime} - {event.endTime}

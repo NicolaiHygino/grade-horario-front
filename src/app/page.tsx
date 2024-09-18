@@ -23,9 +23,10 @@ export default function Page() {
     <Box>
       <Timetable
         events={fields}
-        handleSubmitEvent={append}
-        handleEditEvent={update}
-        handleDeleteEvent={remove}
+        hourHeight={60}
+        handleSubmit={append}
+        handleEdit={update}
+        handleDelete={remove}
       />
     </Box>
   );
